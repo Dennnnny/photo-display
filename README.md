@@ -15,6 +15,7 @@
 #### Logs:
 
 2024.10.28  
-  project init.
+  project init.  
+  photos display.  
 
 ---
