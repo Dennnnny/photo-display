@@ -7,7 +7,7 @@
 #### 功能：
 
 - [ ] infinite scroll
-- [ ] flex arrange with button
+- [x] flex arrange with button
 - [ ] multi-download
 
 ---
@@ -17,5 +17,6 @@
 2024.10.28  
   project init.  
   photos display.  
+  display-mode: three in rows.  
 
 ---

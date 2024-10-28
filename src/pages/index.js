@@ -1,10 +1,15 @@
 import Head from "next/head";
 import Image from "next/image";
+import { useState } from "react";
+import { BsGrid3X3Gap } from "react-icons/bs";
+import { GoRows } from "react-icons/go";
 
 
 export default function Home() {
   const importAll = (context) => context.keys().map((key) => context(key).default);
   const photos = importAll(require.context('../images/', false, /\.(?:jpg|jpeg|png|gif|webp)$/));
+
+  const [displayThreeInRow, setDisplayThreeInRow] = useState(false);
 
   return (
     <>
@@ -15,17 +20,43 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div
-        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', flexFlow: 'wrap' }}
       >
         {photos.map((img, index) => {
           return (
             <Image
-              style={{ width: '80%', height: 'auto', margin: '4px' }}
+              alt="wedding pictures"
+              style={{
+                width: displayThreeInRow ? '30%' : '80%',
+                height: displayThreeInRow ? '100px' : 'auto',
+                margin: '4px'
+              }}
               src={img}
               key={index}
+              priority
             />)
         })}
-      </div>
+        <button
+          style={{
+            position: 'fixed',
+            right: '1rem',
+            bottom: '1rem',
+            width: '3rem',
+            height: '3rem',
+            borderRadius: '50%',
+            border: `2px solid #030303`,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fill: 'red'
+          }}
+          onClick={() => setDisplayThreeInRow(t => !t)}
+        >
+          {displayThreeInRow ? <GoRows size={100} /> : <BsGrid3X3Gap size={100} />}
+
+        </button>
+
+      </div >
     </>
   );
 }
