@@ -8,6 +8,22 @@
 
 ---
 
+### 安裝方式  
+
+`git clone ` 
+
+`cd` 
+
+`npm i` 
+
+`npm run dev` : local模式： http://localhost:3000 可以看到畫面 
+
+`npm run build` : generates an optimized version of your application for production
+
+`npm run start` : run the built files.
+
+---
+
 #### 功能：
 
 - [x] infinite scroll
