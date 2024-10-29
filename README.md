@@ -6,7 +6,7 @@
 
 #### 功能：
 
-- [ ] infinite scroll
+- [x] infinite scroll
       -> try : react-infinite-scroll-component  
       -> https://codesandbox.io/p/sandbox/439v8rmqm0?file=%2Fsrc%2Findex.js%3A3%2C29-3%2C60
 - [x] flex arrange with button
@@ -24,5 +24,8 @@
   project init.  
   photos display.  
   display-mode: three in rows.  
+
+2024.10.29  
+  implement infinite scroll.  
 
 ---
