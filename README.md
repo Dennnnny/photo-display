@@ -11,7 +11,7 @@
       -> https://codesandbox.io/p/sandbox/439v8rmqm0?file=%2Fsrc%2Findex.js%3A3%2C29-3%2C60
 - [x] flex arrange with button
 - [ ] multi-download  
-      -> [ ] make it be able to multiselect
+      -> [x] make it be able to multiselect: maybe use a button to start select ? or long press ?
       -> [ ] implement download
       -> [ ] implement multidownload
       refer: https://www.youtube.com/watch?v=6T_tiHBEvq8&ab_channel=FahadCodeJourney  
