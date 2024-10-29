@@ -1,11 +1,12 @@
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BsGrid3X3Gap } from "react-icons/bs";
 import { GoRows, GoDownload } from "react-icons/go";
 import { FaCheck } from "react-icons/fa";
+import { BiSelectMultiple } from "react-icons/bi";
 import { IoBackspaceOutline } from "react-icons/io5";
-import { useLongPress } from "@uidotdev/usehooks";
+// import { useLongPress } from "@uidotdev/usehooks";
 
 import InfiniteScroll from 'react-infinite-scroll-component';
 
@@ -14,32 +15,24 @@ const importAll = (context) => context.keys().map((key) => context(key).default)
 export default function Home() {
   const [displayThreeInRow, setDisplayThreeInRow] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [defaultNumber, setDefaultNumber] = useState(displayThreeInRow ? 24 : 10);
+  const DEFAULT_DISPLAY_NUMBERS = 50
   const [currentLoadTimes, setCurrentLoadTimes] = useState(1);
-  const [photo, setPhoto] = useState([]);
   const [isMultiSelectMode, setIsMultiSelectMode] = useState(false);
   const [selectedPhotos, setSelectedPhotos] = useState([]);
   const allPhotos = importAll(require.context('../images/', false, /\.(?:jpg|jpeg|png|gif|webp)$/));
+  const [photo, setPhoto] = useState(() => allPhotos.slice(0, DEFAULT_DISPLAY_NUMBERS));
 
-  const attrs = useLongPress(
-    () => {
-      setIsMultiSelectMode(true);
-    },
-    {
-      threshold: 500,
-    }
-  );
 
-  useEffect(() => {
-    window.scrollTo({ top: 0 })
-    setHasMore(true)
-    setDefaultNumber(displayThreeInRow ? 24 : 10)
-    setCurrentLoadTimes(1)
-  }, [displayThreeInRow])
+  //// long press function here
+  // const attrs = useLongPress(
+  //   () => {
+  //     // setIsMultiSelectMode(true);
+  //   },
+  //   {
+  //     threshold: 500,
+  //   }
+  // );
 
-  useEffect(() => {
-    setPhoto(allPhotos.slice(0, defaultNumber)) // array stay same
-  }, [defaultNumber])
 
 
   function getMorePhoto() {
@@ -48,7 +41,7 @@ export default function Home() {
       return
     }
     setTimeout(() => {
-      setPhoto((prevPhotos) => ([...prevPhotos, ...allPhotos.slice(currentLoadTimes * defaultNumber, (currentLoadTimes + 1) * defaultNumber)]))
+      setPhoto((prevPhotos) => ([...prevPhotos, ...allPhotos.slice(currentLoadTimes * DEFAULT_DISPLAY_NUMBERS, (currentLoadTimes + 1) * DEFAULT_DISPLAY_NUMBERS)]))
     }, 500)
     setCurrentLoadTimes(num => num + 1)
   }
@@ -84,16 +77,15 @@ export default function Home() {
             <b>#end</b>
           </p>
         }
-        onScroll={() => { console.log("scrolling...", photo.length) }}
       >
         <div
-          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', flexFlow: 'wrap' }}
+          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', flexFlow: 'wrap', maxWidth: 500, margin: '0 auto' }}
         >
           {photo.map((img, index) => {
             return (<div
               onContextMenu={(e) => e.preventDefault()}
               key={index}
-              {...attrs}
+              // {...attrs}
               style={{
                 width: displayThreeInRow ? '30%' : '80%',
                 height: displayThreeInRow ? '100px' : 'auto',
@@ -131,7 +123,10 @@ export default function Home() {
                   height: displayThreeInRow ? '100px' : 'auto',
                 }}
                 src={img}
-                priority
+                // quality={10}
+                loading="eager"
+              // placeholder="blur"
+              // blurDataURL=""
               /></div>)
           })}
         </div >
@@ -150,12 +145,14 @@ export default function Home() {
             alignItems: 'center',
             fill: 'red'
           }}
-          onClick={() => setDisplayThreeInRow(t => !t)}
+          onClick={() => {
+            setDisplayThreeInRow(t => !t)
+          }}
         >
           {displayThreeInRow ? <GoRows color="#030303" size={100} /> : <BsGrid3X3Gap color="#030303" size={100} />}
         </button>
 
-        {isMultiSelectMode && <button
+        <button
           style={{
             position: 'fixed',
             left: '1rem',
@@ -170,12 +167,16 @@ export default function Home() {
             fill: 'red'
           }}
           onClick={() => {
-            setIsMultiSelectMode(false)
-            setSelectedPhotos([])
+            if (isMultiSelectMode) {
+              setIsMultiSelectMode(false)
+              setSelectedPhotos([])
+            } else {
+              setIsMultiSelectMode(true)
+            }
           }}
         >
-          <IoBackspaceOutline color="#030303" size={100} />
-        </button>}
+          {isMultiSelectMode ? <IoBackspaceOutline color="#030303" size={100} /> : <BiSelectMultiple color="#030303" size={100} />}
+        </button>
 
         {selectedPhotos.length > 0 && <button
           style={{
