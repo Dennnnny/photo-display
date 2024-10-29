@@ -53,6 +53,19 @@ export default function Home() {
     setCurrentLoadTimes(num => num + 1)
   }
 
+  async function downloadImages(images) {
+    for (let i = 0; i < images.length; i++) {
+      const response = await fetch(images[i]);
+      response.blob().then(blob => {
+        let url = window.URL.createObjectURL(blob);
+        let a = document.createElement('a');
+        a.href = url;
+        a.download = `${new Date().getTime()}${i}.jpg`;
+        a.click();
+      });
+    }
+  }
+
   return (
     <>
       <Head>
@@ -87,9 +100,6 @@ export default function Home() {
                 margin: '4px',
                 position: 'relative'
               }}
-              onKeyDown={() => {
-                console.log("keydown")
-              }}
             >
               {isMultiSelectMode && <span
                 style={{
@@ -104,6 +114,7 @@ export default function Home() {
                   boxSizing: 'content-box'
                 }}
                 onClick={() => {
+                  console.log(img)
                   if (selectedPhotos.includes(img.src)) {
                     setSelectedPhotos((prevSelected) => (prevSelected.filter(selected => img.src != selected)))
                   } else {
@@ -123,10 +134,7 @@ export default function Home() {
                 priority
               /></div>)
           })}
-
-
         </div >
-
 
         <button
           style={{
@@ -144,7 +152,7 @@ export default function Home() {
           }}
           onClick={() => setDisplayThreeInRow(t => !t)}
         >
-          {displayThreeInRow ? <GoRows size={100} /> : <BsGrid3X3Gap size={100} />}
+          {displayThreeInRow ? <GoRows color="#030303" size={100} /> : <BsGrid3X3Gap color="#030303" size={100} />}
         </button>
 
         {isMultiSelectMode && <button
@@ -166,7 +174,7 @@ export default function Home() {
             setSelectedPhotos([])
           }}
         >
-          <IoBackspaceOutline size={100} />
+          <IoBackspaceOutline color="#030303" size={100} />
         </button>}
 
         {selectedPhotos.length > 0 && <button
@@ -184,10 +192,10 @@ export default function Home() {
             fill: 'red'
           }}
           onClick={() => {
-
+            downloadImages(selectedPhotos)
           }}
         >
-          <GoDownload size={100} />
+          <GoDownload color="#030303" size={100} />
         </button>}
       </InfiniteScroll >
     </>
