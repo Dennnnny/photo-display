@@ -17,7 +17,7 @@ glob(input_path, function (err, files) {
     sharp(inputFile)
       .jpeg({ mozjpeg: true, quality: 30, force: true })
       .toFile(path.join(output_path, path.basename(inputFile, path.extname(inputFile)) + '.jpg'), (err, info) => {
-        console.log("clone finish.")
+        console.log(`clone ${inputFile} finish.`)
       });
   });
 });

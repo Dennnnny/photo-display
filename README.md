@@ -4,7 +4,9 @@
 
 ### 使用方式  
 
-把圖片丟進 `image` 資料夾中即可  
+把圖片丟進 `images` 資料夾中即可  
+
+執行 `node ./src/utils/sharp.js ./src` => 圖片壓縮
 
 ---
 
