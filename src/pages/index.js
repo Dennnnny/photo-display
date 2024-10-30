@@ -79,18 +79,22 @@ export default function Home() {
         }
       >
         <div
-          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', flexFlow: 'wrap', maxWidth: 500, margin: '0 auto' }}
+          style={{
+            display: 'grid',
+            gap: '8px',
+            maxWidth: 500,
+            margin: 'auto',
+            gridTemplateColumns: displayThreeInRow ? 'repeat(auto-fit, minmax(30%, 1fr))' : '1fr',
+          }}
         >
           {photo.map((img, index) => {
+            console.log(img)
             return (<div
               onContextMenu={(e) => e.preventDefault()}
               key={index}
               // {...attrs}
               style={{
-                width: displayThreeInRow ? '30%' : '80%',
-                height: displayThreeInRow ? '100px' : 'auto',
-                margin: '4px',
-                position: 'relative'
+                gridRow: img.height > 2200 ? 'span 2' : 'auto'
               }}
             >
               {isMultiSelectMode && <span
@@ -120,7 +124,7 @@ export default function Home() {
                 alt="wedding pictures"
                 style={{
                   width: '100%',
-                  height: displayThreeInRow ? '100px' : 'auto',
+                  height: '100%',
                 }}
                 src={img}
                 quality={20}

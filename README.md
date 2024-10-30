@@ -43,7 +43,7 @@
 - [ ] download for origin picture
 
 
-- [ ] grid display in small picture
+- [x] grid display in small picture
 - [ ] modal to show big picture ? -> long press show big picture full size
 - [ ] adjust some detail: 
       -> background image
