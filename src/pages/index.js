@@ -85,16 +85,17 @@ export default function Home() {
             maxWidth: 500,
             margin: 'auto',
             gridTemplateColumns: displayThreeInRow ? 'repeat(auto-fit, minmax(30%, 1fr))' : '1fr',
+            overflow: 'hidden',
           }}
         >
           {photo.map((img, index) => {
-            console.log(img)
             return (<div
               onContextMenu={(e) => e.preventDefault()}
               key={index}
               // {...attrs}
               style={{
-                gridRow: img.height > 2200 ? 'span 2' : 'auto'
+                gridRow: img.height > 2200 ? 'span 2' : 'auto',
+                position: 'relative'
               }}
             >
               {isMultiSelectMode && <span
