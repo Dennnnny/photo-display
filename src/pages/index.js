@@ -19,6 +19,7 @@ export default function Home() {
   const [currentLoadTimes, setCurrentLoadTimes] = useState(1);
   const [isMultiSelectMode, setIsMultiSelectMode] = useState(false);
   const [selectedPhotos, setSelectedPhotos] = useState([]);
+  const [checkSelectedPhotos, setCheckSelectedPhotos] = useState([]);
   const allPhotos = importAll(require.context('../blur/', false, /\.(?:jpg|jpeg|png|gif|webp)$/));
   const [photo, setPhoto] = useState(() => allPhotos.slice(0, DEFAULT_DISPLAY_NUMBERS));
 
@@ -57,6 +58,13 @@ export default function Home() {
         a.click();
       });
     }
+  }
+
+  function getFileOriginName(input) {
+    const match = input.match(/\/([^\/]+\.jpg)$/);
+    const fileNames = match[1].split(".")
+    const output = `${fileNames[0]}.${fileNames[2]}`
+    return output
   }
 
   return (
@@ -110,16 +118,18 @@ export default function Home() {
                   border: '1px solid #22aeef55',
                   boxSizing: 'content-box'
                 }}
-                onClick={() => {
-                  // console.log(selectedPhotos)
-                  if (selectedPhotos.includes(img.src)) {
-                    setSelectedPhotos((prevSelected) => (prevSelected.filter(selected => img.src != selected)))
+                onClick={async () => {
+                  const picture = (await import(`../images/${getFileOriginName(img.src)}`)).default
+                  if (selectedPhotos.includes(picture.src)) {
+                    setSelectedPhotos((prevSelected) => (prevSelected.filter(selected => picture.src != selected)))
+                    setCheckSelectedPhotos(prev => ([prev.filter(selected => selected != index)]))
                   } else {
-                    setSelectedPhotos((prevSelected) => ([...prevSelected, img.src]))
+                    setSelectedPhotos((prevSelected) => ([...prevSelected, picture.src]))
+                    setCheckSelectedPhotos((prev) => ([...prev, index]))
                   }
                 }}
               >
-                {selectedPhotos.includes(img.src) && < FaCheck color="#22aeef" />}
+                {checkSelectedPhotos.includes(index) && < FaCheck color="#22aeef" />}
               </span>}
               <Image
                 alt="wedding pictures"
