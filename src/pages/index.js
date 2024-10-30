@@ -15,11 +15,11 @@ const importAll = (context) => context.keys().map((key) => context(key).default)
 export default function Home() {
   const [displayThreeInRow, setDisplayThreeInRow] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const DEFAULT_DISPLAY_NUMBERS = 50
+  const DEFAULT_DISPLAY_NUMBERS = 25
   const [currentLoadTimes, setCurrentLoadTimes] = useState(1);
   const [isMultiSelectMode, setIsMultiSelectMode] = useState(false);
   const [selectedPhotos, setSelectedPhotos] = useState([]);
-  const allPhotos = importAll(require.context('../images/', false, /\.(?:jpg|jpeg|png|gif|webp)$/));
+  const allPhotos = importAll(require.context('../blur/', false, /\.(?:jpg|jpeg|png|gif|webp)$/));
   const [photo, setPhoto] = useState(() => allPhotos.slice(0, DEFAULT_DISPLAY_NUMBERS));
 
 
@@ -106,7 +106,7 @@ export default function Home() {
                   boxSizing: 'content-box'
                 }}
                 onClick={() => {
-                  console.log(img)
+                  // console.log(selectedPhotos)
                   if (selectedPhotos.includes(img.src)) {
                     setSelectedPhotos((prevSelected) => (prevSelected.filter(selected => img.src != selected)))
                   } else {
@@ -123,10 +123,8 @@ export default function Home() {
                   height: displayThreeInRow ? '100px' : 'auto',
                 }}
                 src={img}
-                // quality={10}
+                quality={20}
                 loading="eager"
-              // placeholder="blur"
-              // blurDataURL=""
               /></div>)
           })}
         </div >

@@ -37,9 +37,13 @@
       -> [x] implement multidownload : need test
       refer: https://www.youtube.com/watch?v=6T_tiHBEvq8&ab_channel=FahadCodeJourney  
              https://stackoverflow.com/questions/75204443/first-download-image-button-click-is-downloading-html-file-in-react-js-next-j
-- [ ] IMPORTANT ! make image smaller. current loading is too slow
+- [x] IMPORTANT ! make image smaller. current loading is too slow
       https://stackoverflow.com/questions/67402947/bulk-convert-entire-folder-of-images-with-sharp
+      https://dev.to/dpnunez/nextjs-image-loading-with-blur-effect-a-step-by-step-guide-4f64
+- [ ] download for origin picture
 
+
+- [ ] grid display in small picture
 - [ ] modal to show big picture ? -> long press show big picture full size
 - [ ] adjust some detail: 
       -> background image
