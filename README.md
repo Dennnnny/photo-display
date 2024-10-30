@@ -65,4 +65,9 @@
   add feature of multiselect.  
   add feature of download image.  
 
+2024.10.30
+  implement resize picture function  
+  adjust display mode grid  
+  show the resized picture and download origin one    
+
 ---
