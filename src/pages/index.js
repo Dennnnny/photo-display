@@ -6,6 +6,7 @@ import { GoRows, GoDownload } from "react-icons/go";
 import { FaCheck } from "react-icons/fa";
 import { BiSelectMultiple } from "react-icons/bi";
 import { IoBackspaceOutline } from "react-icons/io5";
+
 // import { useLongPress } from "@uidotdev/usehooks";
 
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -19,7 +20,7 @@ export default function Home() {
   const [currentLoadTimes, setCurrentLoadTimes] = useState(1);
   const [isMultiSelectMode, setIsMultiSelectMode] = useState(false);
   const [selectedPhotos, setSelectedPhotos] = useState([]);
-  const [checkSelectedPhotos, setCheckSelectedPhotos] = useState([]);
+  // const [checkSelectedPhotos, setCheckSelectedPhotos] = useState([]);
   const allPhotos = importAll(require.context('../blur/', false, /\.(?:jpg|jpeg|png|gif|webp)$/));
   const [photo, setPhoto] = useState(() => allPhotos.slice(0, DEFAULT_DISPLAY_NUMBERS));
 
@@ -106,31 +107,45 @@ export default function Home() {
                 position: 'relative'
               }}
             >
-              {isMultiSelectMode && <span
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  width: '1rem',
-                  height: '1rem',
-                  background: 'white',
-                  margin: '4px 24px 24px 4px',
-                  textAlign: 'center',
-                  border: '1px solid #22aeef55',
-                  boxSizing: 'content-box'
-                }}
-                onClick={async () => {
-                  const picture = (await import(`../images/${getFileOriginName(img.src)}`)).default
-                  if (selectedPhotos.includes(picture.src)) {
-                    setSelectedPhotos((prevSelected) => (prevSelected.filter(selected => picture.src != selected)))
-                    setCheckSelectedPhotos(prev => ([prev.filter(selected => selected != index)]))
-                  } else {
-                    setSelectedPhotos((prevSelected) => ([...prevSelected, picture.src]))
-                    setCheckSelectedPhotos((prev) => ([...prev, index]))
-                  }
-                }}
-              >
-                {checkSelectedPhotos.includes(index) && < FaCheck color="#22aeef" />}
-              </span>}
+
+              {isMultiSelectMode && <>
+                <input
+                  className="check"
+                  type="checkbox"
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    width: '1rem',
+                    height: '1rem',
+                    background: 'white',
+                    margin: '4px 24px 24px 4px',
+                    textAlign: 'center',
+                    boxSizing: 'content-box',
+                    accentColor: "white",
+                    appearance: 'none'
+                  }}
+                  onClick={async () => {
+                    const picture = (await import(`../images/${getFileOriginName(img.src)}`)).default
+                    if (selectedPhotos.includes(picture.src)) {
+                      setSelectedPhotos((prevSelected) => (prevSelected.filter(selected => picture.src != selected)))
+                    } else {
+                      setSelectedPhotos((prevSelected) => ([...prevSelected, picture.src]))
+                    }
+                  }}
+                />
+                <FaCheck
+                  className="checkedMark"
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    width: '1rem',
+                    height: '1rem',
+                    margin: '4px 24px 24px 4px',
+                    pointerEvents: 'none'
+                  }}
+                  color="#22aeef"
+                />
+              </>}
               <Image
                 alt="wedding pictures"
                 style={{

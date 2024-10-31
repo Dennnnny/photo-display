@@ -1,0 +1,9 @@
+.checkedMark {
+  display: none;
+}
+
+/* input:checked */
+
+input:checked~.checkedMark {
+  display: inline-block;
+}
