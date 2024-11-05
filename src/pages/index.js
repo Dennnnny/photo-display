@@ -52,7 +52,6 @@ export default function Home() {
   async function downloadImages(images) {
     setIsLoading(true);
     await fetch("api/download-pictures", { method: "post", body: JSON.stringify(images) }).then(res => res.json()).then((res) => {
-      setIsLoading(false);
       const bufferArray = res.buffer;
 
       for (let i = 0; i < bufferArray.length; i++) {
@@ -67,6 +66,7 @@ export default function Home() {
         a.click();
         window.URL.revokeObjectURL(url);
       }
+      setIsLoading(false);
     })
   }
 
