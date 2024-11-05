@@ -7,3 +7,23 @@
 input:checked~.checkedMark {
   display: inline-block;
 }
+
+@keyframes updown {
+  from {
+    transform: translateY(-2px);
+  }
+
+  to {
+    transform: translateY(2px);
+  }
+}
+
+@keyframes downup {
+  from {
+    transform: translateY(2px);
+  }
+
+  to {
+    transform: translateY(-2px);
+  }
+}

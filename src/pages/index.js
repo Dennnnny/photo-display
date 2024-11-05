@@ -5,7 +5,7 @@ import { BsGrid3X3Gap } from "react-icons/bs";
 import { GoRows, GoDownload } from "react-icons/go";
 import { FaCheck } from "react-icons/fa";
 import { BiSelectMultiple } from "react-icons/bi";
-import { IoBackspaceOutline } from "react-icons/io5";
+import { IoBackspaceOutline, IoCloudDownloadOutline } from "react-icons/io5";
 
 // import { useLongPress } from "@uidotdev/usehooks";
 
@@ -20,6 +20,7 @@ export default function Home() {
   const [currentLoadTimes, setCurrentLoadTimes] = useState(1);
   const [isMultiSelectMode, setIsMultiSelectMode] = useState(false);
   const [selectedPhotos, setSelectedPhotos] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   // const [checkSelectedPhotos, setCheckSelectedPhotos] = useState([]);
   const allPhotos = importAll(require.context("../blur/", false, /\.(?:jpg|jpeg|png|gif|webp)$/));
   const [photo, setPhoto] = useState(() => allPhotos.slice(0, DEFAULT_DISPLAY_NUMBERS));
@@ -49,7 +50,9 @@ export default function Home() {
   }
 
   async function downloadImages(images) {
+    setIsLoading(true);
     await fetch("api/download-pictures", { method: "post", body: JSON.stringify(images) }).then(res => res.json()).then((res) => {
+      setIsLoading(false);
       const bufferArray = res.buffer;
 
       for (let i = 0; i < bufferArray.length; i++) {
@@ -82,6 +85,42 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          display: isLoading ? "flex" : "none",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: 0,
+          zIndex: 10,
+          background: isLoading ? "transparent" : "rgba(0, 0, 0, 0.35)",
+          backdropFilter: isLoading ? "blur(2px)" : "none",
+          animationName: "updown",
+          animationDuration: "0.5s",
+          animationIterationCount: "infinite",
+          animationDirection: "alternate",
+          color: "#22aeef"
+        }}
+      >
+        <IoCloudDownloadOutline size={100} />
+        <p
+          style={{
+            margin: 4,
+            transform: "translateY(2px)",
+            animationName: "downup",
+            animationDuration: "0.5s",
+            animationIterationCount: "infinite",
+            animationDirection: "alternate",
+            fontSize: 24,
+            fontWeight: 600
+          }}
+        >下載中...</p>
+      </div >
       <InfiniteScroll
         dataLength={photo.length}
         next={getMorePhoto}
