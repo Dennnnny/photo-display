@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-const { Storage, TransferManager } = require('@google-cloud/storage');
+const { Storage, TransferManager } = require("@google-cloud/storage");
 
 export default async function handler(req, res) {
 

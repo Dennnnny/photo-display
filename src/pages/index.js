@@ -9,7 +9,7 @@ import { IoBackspaceOutline } from "react-icons/io5";
 
 // import { useLongPress } from "@uidotdev/usehooks";
 
-import InfiniteScroll from 'react-infinite-scroll-component';
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const importAll = (context) => context.keys().map((key) => context(key).default);
 
@@ -21,7 +21,7 @@ export default function Home() {
   const [isMultiSelectMode, setIsMultiSelectMode] = useState(false);
   const [selectedPhotos, setSelectedPhotos] = useState([]);
   // const [checkSelectedPhotos, setCheckSelectedPhotos] = useState([]);
-  const allPhotos = importAll(require.context('../blur/', false, /\.(?:jpg|jpeg|png|gif|webp)$/));
+  const allPhotos = importAll(require.context("../blur/", false, /\.(?:jpg|jpeg|png|gif|webp)$/));
   const [photo, setPhoto] = useState(() => allPhotos.slice(0, DEFAULT_DISPLAY_NUMBERS));
 
 
@@ -58,7 +58,7 @@ export default function Home() {
         const blob = new Blob([buffer]);
 
         let url = window.URL.createObjectURL(blob);
-        let a = document.createElement('a');
+        let a = document.createElement("a");
         a.href = url;
         a.download = `${new Date().getTime()}${i}.jpg`;
         a.click();
@@ -86,21 +86,21 @@ export default function Home() {
         dataLength={photo.length}
         next={getMorePhoto}
         hasMore={hasMore}
-        loader={<p style={{ textAlign: 'center' }}>Loading...</p>}
+        loader={<p style={{ textAlign: "center" }}>Loading...</p>}
         endMessage={
-          <p style={{ textAlign: 'center' }}>
+          <p style={{ textAlign: "center" }}>
             <b>#end</b>
           </p>
         }
       >
         <div
           style={{
-            display: 'grid',
-            gap: '8px',
+            display: "grid",
+            gap: "8px",
             maxWidth: 500,
-            margin: 'auto',
-            gridTemplateColumns: displayThreeInRow ? 'repeat(auto-fit, minmax(30%, 1fr))' : '1fr',
-            overflow: 'hidden',
+            margin: "auto",
+            gridTemplateColumns: displayThreeInRow ? "repeat(auto-fit, minmax(30%, 1fr))" : "1fr",
+            overflow: "hidden",
           }}
         >
           {photo.map((img, index) => {
@@ -109,8 +109,8 @@ export default function Home() {
               key={index}
               // {...attrs}
               style={{
-                gridRow: img.height > 2200 ? 'span 2' : 'auto',
-                position: 'relative'
+                gridRow: img.height > 2200 ? "span 2" : "auto",
+                position: "relative"
               }}
             >
 
@@ -119,16 +119,16 @@ export default function Home() {
                   className="check"
                   type="checkbox"
                   style={{
-                    position: 'absolute',
+                    position: "absolute",
                     left: 0,
-                    width: '1rem',
-                    height: '1rem',
-                    background: 'white',
-                    margin: '4px 24px 24px 4px',
-                    textAlign: 'center',
-                    boxSizing: 'content-box',
+                    width: "1rem",
+                    height: "1rem",
+                    background: "white",
+                    margin: "4px 24px 24px 4px",
+                    textAlign: "center",
+                    boxSizing: "content-box",
                     accentColor: "white",
-                    appearance: 'none'
+                    appearance: "none"
                   }}
                   onClick={async () => {
                     const fileNameSelected = getFileOriginName(img.src);
@@ -143,12 +143,12 @@ export default function Home() {
                 <FaCheck
                   className="checkedMark"
                   style={{
-                    position: 'absolute',
+                    position: "absolute",
                     left: 0,
-                    width: '1rem',
-                    height: '1rem',
-                    margin: '4px 24px 24px 4px',
-                    pointerEvents: 'none'
+                    width: "1rem",
+                    height: "1rem",
+                    margin: "4px 24px 24px 4px",
+                    pointerEvents: "none"
                   }}
                   color="#22aeef"
                 />
@@ -156,8 +156,8 @@ export default function Home() {
               <Image
                 alt="wedding pictures"
                 style={{
-                  width: '100%',
-                  height: '100%',
+                  width: "100%",
+                  height: "100%",
                 }}
                 src={img}
                 quality={20}
@@ -168,17 +168,17 @@ export default function Home() {
 
         <button
           style={{
-            position: 'fixed',
-            right: '1rem',
-            bottom: '1rem',
-            width: '3rem',
-            height: '3rem',
-            borderRadius: '50%',
-            border: `2px solid #030303`,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            fill: 'red'
+            position: "fixed",
+            right: "1rem",
+            bottom: "1rem",
+            width: "3rem",
+            height: "3rem",
+            borderRadius: "50%",
+            border: "2px solid #030303",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fill: "red"
           }}
           onClick={() => {
             setDisplayThreeInRow(t => !t);
@@ -189,17 +189,17 @@ export default function Home() {
 
         <button
           style={{
-            position: 'fixed',
-            left: '1rem',
-            bottom: '1rem',
-            width: '3rem',
-            height: '3rem',
-            borderRadius: '50%',
-            border: `2px solid #030303`,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            fill: 'red'
+            position: "fixed",
+            left: "1rem",
+            bottom: "1rem",
+            width: "3rem",
+            height: "3rem",
+            borderRadius: "50%",
+            border: "2px solid #030303",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fill: "red"
           }}
           onClick={() => {
             if (isMultiSelectMode) {
@@ -215,17 +215,17 @@ export default function Home() {
 
         {selectedPhotos.length > 0 && <button
           style={{
-            position: 'fixed',
-            left: '5rem',
-            bottom: '1rem',
-            width: '3rem',
-            height: '3rem',
-            borderRadius: '50%',
-            border: `2px solid #030303`,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            fill: 'red'
+            position: "fixed",
+            left: "5rem",
+            bottom: "1rem",
+            width: "3rem",
+            height: "3rem",
+            borderRadius: "50%",
+            border: "2px solid #030303",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fill: "red"
           }}
           onClick={() => {
             downloadImages(selectedPhotos);
