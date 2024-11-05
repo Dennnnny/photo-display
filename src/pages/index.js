@@ -16,7 +16,7 @@ const importAll = (context) => context.keys().map((key) => context(key).default)
 export default function Home() {
   const [displayThreeInRow, setDisplayThreeInRow] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const DEFAULT_DISPLAY_NUMBERS = 25
+  const DEFAULT_DISPLAY_NUMBERS = 25;
   const [currentLoadTimes, setCurrentLoadTimes] = useState(1);
   const [isMultiSelectMode, setIsMultiSelectMode] = useState(false);
   const [selectedPhotos, setSelectedPhotos] = useState([]);
@@ -39,18 +39,18 @@ export default function Home() {
 
   function getMorePhoto() {
     if (photo.length >= allPhotos.length) {
-      setHasMore(false)
-      return
+      setHasMore(false);
+      return;
     }
     setTimeout(() => {
-      setPhoto((prevPhotos) => ([...prevPhotos, ...allPhotos.slice(currentLoadTimes * DEFAULT_DISPLAY_NUMBERS, (currentLoadTimes + 1) * DEFAULT_DISPLAY_NUMBERS)]))
-    }, 500)
-    setCurrentLoadTimes(num => num + 1)
+      setPhoto((prevPhotos) => ([...prevPhotos, ...allPhotos.slice(currentLoadTimes * DEFAULT_DISPLAY_NUMBERS, (currentLoadTimes + 1) * DEFAULT_DISPLAY_NUMBERS)]));
+    }, 500);
+    setCurrentLoadTimes(num => num + 1);
   }
 
   async function downloadImages(images) {
     await fetch("api/download-pictures", { method: "post", body: JSON.stringify(images) }).then(res => res.json()).then((res) => {
-      const bufferArray = res.buffer
+      const bufferArray = res.buffer;
 
       for (let i = 0; i < bufferArray.length; i++) {
 
@@ -69,9 +69,9 @@ export default function Home() {
 
   function getFileOriginName(input) {
     const match = input.match(/\/([^\/]+\.jpg)$/);
-    const fileNames = match[1].split(".")
-    const output = `${fileNames[0]}.${fileNames[2]}`
-    return output
+    const fileNames = match[1].split(".");
+    const output = `${fileNames[0]}.${fileNames[2]}`;
+    return output;
   }
 
   return (
@@ -131,12 +131,12 @@ export default function Home() {
                     appearance: 'none'
                   }}
                   onClick={async () => {
-                    const fileNameSelected = getFileOriginName(img.src)
+                    const fileNameSelected = getFileOriginName(img.src);
 
                     if (selectedPhotos.includes(fileNameSelected)) {
-                      setSelectedPhotos((prevSelected) => (prevSelected.filter(selected => fileNameSelected != selected)))
+                      setSelectedPhotos((prevSelected) => (prevSelected.filter(selected => fileNameSelected != selected)));
                     } else {
-                      setSelectedPhotos((prevSelected) => ([...prevSelected, fileNameSelected]))
+                      setSelectedPhotos((prevSelected) => ([...prevSelected, fileNameSelected]));
                     }
                   }}
                 />
@@ -181,7 +181,7 @@ export default function Home() {
             fill: 'red'
           }}
           onClick={() => {
-            setDisplayThreeInRow(t => !t)
+            setDisplayThreeInRow(t => !t);
           }}
         >
           {displayThreeInRow ? <GoRows color="#030303" size={100} /> : <BsGrid3X3Gap color="#030303" size={100} />}
@@ -203,10 +203,10 @@ export default function Home() {
           }}
           onClick={() => {
             if (isMultiSelectMode) {
-              setIsMultiSelectMode(false)
-              setSelectedPhotos([])
+              setIsMultiSelectMode(false);
+              setSelectedPhotos([]);
             } else {
-              setIsMultiSelectMode(true)
+              setIsMultiSelectMode(true);
             }
           }}
         >
@@ -228,7 +228,7 @@ export default function Home() {
             fill: 'red'
           }}
           onClick={() => {
-            downloadImages(selectedPhotos)
+            downloadImages(selectedPhotos);
           }}
         >
           <GoDownload color="#030303" size={100} />

@@ -13,12 +13,12 @@ export default async function handler(req, res) {
     }
   });
 
-  const bucketName = process.env.GOOGLE_BUCKET_NAME
+  const bucketName = process.env.GOOGLE_BUCKET_NAME;
 
   // // Creates a transfer manager client
   const transferManager = new TransferManager(storage.bucket(bucketName));
 
   const array = await transferManager.downloadManyFiles(images).catch(console.error);
 
-  res.status(200).json({ buffer: array })
+  res.status(200).json({ buffer: array });
 }
