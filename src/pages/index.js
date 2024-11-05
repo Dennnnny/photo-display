@@ -49,16 +49,22 @@ export default function Home() {
   }
 
   async function downloadImages(images) {
-    for (let i = 0; i < images.length; i++) {
-      const response = await fetch(images[i]);
-      response.blob().then(blob => {
+    await fetch("api/download-pictures", { method: "post", body: JSON.stringify(images) }).then(res => res.json()).then((res) => {
+      const bufferArray = res.buffer
+
+      for (let i = 0; i < bufferArray.length; i++) {
+
+        const buffer = Buffer.from(bufferArray[i][0]);
+        const blob = new Blob([buffer]);
+
         let url = window.URL.createObjectURL(blob);
         let a = document.createElement('a');
         a.href = url;
         a.download = `${new Date().getTime()}${i}.jpg`;
         a.click();
-      });
-    }
+        window.URL.revokeObjectURL(url);
+      }
+    })
   }
 
   function getFileOriginName(input) {
@@ -125,11 +131,12 @@ export default function Home() {
                     appearance: 'none'
                   }}
                   onClick={async () => {
-                    const picture = (await import(`../images/${getFileOriginName(img.src)}`)).default
-                    if (selectedPhotos.includes(picture.src)) {
-                      setSelectedPhotos((prevSelected) => (prevSelected.filter(selected => picture.src != selected)))
+                    const fileNameSelected = getFileOriginName(img.src)
+
+                    if (selectedPhotos.includes(fileNameSelected)) {
+                      setSelectedPhotos((prevSelected) => (prevSelected.filter(selected => fileNameSelected != selected)))
                     } else {
-                      setSelectedPhotos((prevSelected) => ([...prevSelected, picture.src]))
+                      setSelectedPhotos((prevSelected) => ([...prevSelected, fileNameSelected]))
                     }
                   }}
                 />

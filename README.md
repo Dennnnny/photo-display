@@ -25,3 +25,10 @@
 `npm run start` : 執行指令
 
 ---
+
+todo:   
+
+
+- [x] NEED TO FIGURE OUT HOW TO DOWNLOAD.... 
+      note: .env / $$$ storage / 
+- [ ] add a loading overlay
