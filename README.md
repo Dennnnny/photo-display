@@ -4,10 +4,22 @@
 
 ### 使用方式  
 
-把圖片丟進 `images` 資料夾中即可  
+~~把圖片丟進 `images` 資料夾中即可~~  
 
-執行 `node ./src/utils/sharp.js ./src` => 圖片壓縮
+~~執行 `node ./src/utils/sharp.js ./src` => 圖片壓縮~~
 
+壓縮過的圖片放在 `/blur` 資料夾中展示用  
+
+下載時從 google storage 下載  
+
+新增一個 `.env` 檔案  
+裡面建立四個環境變數  
+```
+GOOGLE_PRIVATE_KEY=""
+GOOGLE_CLIENT_EMAIL=""
+GOOGLE_PROJECT_NAME=""
+GOOGLE_BUCKET_NAME=""
+```
 ---
 
 ### 安裝方式  
@@ -25,10 +37,3 @@
 `npm run start` : 執行指令
 
 ---
-
-todo:   
-
-
-- [x] NEED TO FIGURE OUT HOW TO DOWNLOAD.... 
-      note: .env / $$$ storage / 
-- [ ] add a loading overlay
