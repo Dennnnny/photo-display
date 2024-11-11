@@ -200,9 +200,9 @@ export default function Home() {
                   WebkitTouchCallout: "none"
                 }}
                 src={img}
-                quality={20}
-                width={120}
-                height={80}
+                quality={100}
+                width={displayThreeInRow ? 120 : 360}
+                height={displayThreeInRow ? 80 : 240}
                 loading="lazy"
               /></div>)
           })}
