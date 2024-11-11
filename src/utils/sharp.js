@@ -31,7 +31,7 @@ glob(input_path_JPG, function (err, files) {
   files.forEach(function (inputFile) {
     sharp(inputFile)
       .jpeg({ mozjpeg: true, quality: 30, force: true })
-      .toFile(path.join(output_path, path.basename(inputFile, path.extname(inputFile)) + ".jpg"), (err, info) => {
+      .toFile(path.join(output_path, path.basename(inputFile, path.extname(inputFile)) + ".JPG"), (err, info) => {
         console.log(`clone ${inputFile} finish.`)
       });
   });
