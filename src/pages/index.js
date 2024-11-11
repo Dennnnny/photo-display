@@ -16,13 +16,12 @@ const importAll = (context) => context.keys().map((key) => context(key).default)
 export default function Home() {
   const [displayThreeInRow, setDisplayThreeInRow] = useState(true);
   const [hasMore, setHasMore] = useState(true);
-  const DEFAULT_DISPLAY_NUMBERS = 25;
+  const DEFAULT_DISPLAY_NUMBERS = 30;
   const [currentLoadTimes, setCurrentLoadTimes] = useState(1);
   const [isMultiSelectMode, setIsMultiSelectMode] = useState(false);
   const [selectedPhotos, setSelectedPhotos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  // const [checkSelectedPhotos, setCheckSelectedPhotos] = useState([]);
-  const allPhotos = importAll(require.context("../blur/", false, /\.(?:jpg|jpeg|png|gif|webp)$/));
+  const allPhotos = importAll(require.context("../blur/", false, /\.(?:jpg)$/i));
   const [photo, setPhoto] = useState(() => allPhotos.slice(0, DEFAULT_DISPLAY_NUMBERS));
 
 
@@ -71,7 +70,7 @@ export default function Home() {
   }
 
   function getFileOriginName(input) {
-    const match = input.match(/\/([^\/]+\.jpg)$/);
+    const match = input.match(/\/([^\/]+\.jpg)$/i);
     const fileNames = match[1].split(".");
     const output = `${fileNames[0]}.${fileNames[2]}`;
     return output;
@@ -202,7 +201,9 @@ export default function Home() {
                 }}
                 src={img}
                 quality={20}
-                loading="eager"
+                width={120}
+                height={80}
+                loading="lazy"
               /></div>)
           })}
         </div >
