@@ -14,7 +14,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const importAll = (context) => context.keys().map((key) => context(key).default);
 
 export default function Home() {
-  const [displayThreeInRow, setDisplayThreeInRow] = useState(false);
+  const [displayThreeInRow, setDisplayThreeInRow] = useState(true);
   const [hasMore, setHasMore] = useState(true);
   const DEFAULT_DISPLAY_NUMBERS = 25;
   const [currentLoadTimes, setCurrentLoadTimes] = useState(1);
