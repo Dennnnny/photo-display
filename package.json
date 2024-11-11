@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "blur": "node ./src/utils/sharp.js ./src && rm -rf ./src/images"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.14.0",

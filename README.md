@@ -20,6 +20,11 @@ GOOGLE_CLIENT_EMAIL=""
 GOOGLE_PROJECT_NAME=""
 GOOGLE_BUCKET_NAME=""
 ```
+
+壓縮圖片指令  
+在 ./src/images 裡面放原圖，先確認已有 /images 資料夾  
+執行 `npm run blur`  
+
 ---
 
 ### 安裝方式  
