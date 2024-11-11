@@ -21,3 +21,18 @@ glob(input_path, function (err, files) {
       });
   });
 });
+
+const input_path_JPG = path.join(dir, "images", "*.JPG");
+
+
+glob(input_path_JPG, function (err, files) {
+  if (err != null) { throw err; }
+  fs.mkdirSync(output_path, { recursive: true });
+  files.forEach(function (inputFile) {
+    sharp(inputFile)
+      .jpeg({ mozjpeg: true, quality: 30, force: true })
+      .toFile(path.join(output_path, path.basename(inputFile, path.extname(inputFile)) + ".jpg"), (err, info) => {
+        console.log(`clone ${inputFile} finish.`)
+      });
+  });
+});
