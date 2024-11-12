@@ -6,6 +6,7 @@ import { GoRows, GoDownload } from "react-icons/go";
 import { FaCheck } from "react-icons/fa";
 import { BiSelectMultiple } from "react-icons/bi";
 import { IoBackspaceOutline, IoCloudDownloadOutline } from "react-icons/io5";
+import JSZip from "jszip";
 
 // import { useLongPress } from "@uidotdev/usehooks";
 
@@ -50,22 +51,27 @@ export default function Home() {
 
   async function downloadImages(images) {
     setIsLoading(true);
-    await fetch("api/download-pictures", { method: "post", body: JSON.stringify(images) }).then(res => res.json()).then((res) => {
+    await fetch("api/download-pictures", { method: "post", body: JSON.stringify(images) }).then(res => res.json()).then(async (res) => {
       const bufferArray = res.buffer;
 
-      for (let i = 0; i < bufferArray.length; i++) {
+      const zip = new JSZip();
 
-        const buffer = Buffer.from(bufferArray[i][0]);
-        const blob = new Blob([buffer]);
+      await Promise.all(bufferArray.map(async (buffer) => {
+        const arrayBuffer = Buffer.from(buffer[0]);
+        zip.file(`${new Date().getTime()}.jpg`, arrayBuffer);
+      }));
 
-        let url = window.URL.createObjectURL(blob);
-        let a = document.createElement("a");
-        a.href = url;
-        a.download = `${new Date().getTime()}${i}.jpg`;
-        a.click();
-        window.URL.revokeObjectURL(url);
-      }
+      const zipped = await zip.generateAsync({ type: "arraybuffer" });
+      const filesZipped = Buffer.from(zipped)
+
+      const blob = new Blob([filesZipped], { type: 'application/zip' });
+      let a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `chun's婚禮回憶.zip`;
+      a.click();
+
       setIsLoading(false);
+      setSelectedPhotos([]);
     })
   }
 
