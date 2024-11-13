@@ -22,3 +22,9 @@ export default async function handler(req, res) {
 
   res.status(200).json({ buffer: array });
 }
+
+export const config = {
+  api: {
+    responseLimit: false,
+  },
+}

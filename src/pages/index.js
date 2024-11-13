@@ -25,6 +25,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const allPhotos = importAll(require.context("../blur/", false, /\.(?:jpg)$/i));
   const [photo, setPhoto] = useState(() => allPhotos.slice(0, DEFAULT_DISPLAY_NUMBERS));
+  const MAX_DOWNLOAD_NUMBER = 20
 
 
   //// long press function here
@@ -74,16 +75,17 @@ export default function Home() {
       } else {
 
         for (let i = 0; i < bufferArray.length; i++) {
+          setTimeout(() => {
+            const buffer = Buffer.from(bufferArray[i][0]);
+            const blob = new Blob([buffer]);
 
-          const buffer = Buffer.from(bufferArray[i][0]);
-          const blob = new Blob([buffer]);
-
-          let url = window.URL.createObjectURL(blob);
-          let a = document.createElement("a");
-          a.href = url;
-          a.download = `${new Date().getTime()}${i}.jpg`;
-          a.click();
-          window.URL.revokeObjectURL(url);
+            let url = window.URL.createObjectURL(blob);
+            let a = document.createElement("a");
+            a.href = url;
+            a.download = `${new Date().getTime()}${i}.jpg`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+          }, i * 500)
         }
       }
 
@@ -123,6 +125,7 @@ export default function Home() {
           zIndex: 10,
           background: isLoading ? "transparent" : "rgba(0, 0, 0, 0.35)",
           backdropFilter: isLoading ? "blur(2px)" : "none",
+          WebkitBackdropFilter: isLoading ? "blur(2px)" : "none",
           animationName: "updown",
           animationDuration: "0.5s",
           animationIterationCount: "infinite",
@@ -198,6 +201,7 @@ export default function Home() {
                     if (selectedPhotos.includes(fileNameSelected)) {
                       setSelectedPhotos((prevSelected) => (prevSelected.filter(selected => fileNameSelected != selected)));
                     } else {
+                      if (selectedPhotos.length >= MAX_DOWNLOAD_NUMBER) return;
                       setSelectedPhotos((prevSelected) => ([...prevSelected, fileNameSelected]));
                     }
                   }}
@@ -252,6 +256,26 @@ export default function Home() {
         >
           {displayThreeInRow ? <GoRows color="#030303" size={100} /> : <BsGrid3X3Gap color="#030303" size={100} />}
         </button>
+
+        {isMultiSelectMode && <div
+          style={{
+            position: "fixed",
+            right: "5rem",
+            bottom: "1rem",
+            width: "3rem",
+            height: "3rem",
+            borderRadius: "50%",
+            border: `2px solid ${selectedPhotos.length >= MAX_DOWNLOAD_NUMBER ? "red" : "#303030"}`,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontFamily: "sans-serif",
+            background: "rgba(255,255,255,0.7)",
+            color: selectedPhotos.length >= MAX_DOWNLOAD_NUMBER ? "red" : "#303030"
+          }}
+        >
+          <p>{selectedPhotos.length}/{MAX_DOWNLOAD_NUMBER}</p>
+        </div>}
 
         <button
           style={{
