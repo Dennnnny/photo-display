@@ -7,6 +7,7 @@ import { FaCheck } from "react-icons/fa";
 import { BiSelectMultiple } from "react-icons/bi";
 import { IoBackspaceOutline, IoCloudDownloadOutline } from "react-icons/io5";
 import JSZip from "jszip";
+import { isMobile, isIOS, isSafari } from 'react-device-detect';
 
 // import { useLongPress } from "@uidotdev/usehooks";
 
@@ -53,25 +54,42 @@ export default function Home() {
     setIsLoading(true);
     await fetch("api/download-pictures", { method: "post", body: JSON.stringify(images) }).then(res => res.json()).then(async (res) => {
       const bufferArray = res.buffer;
+      if (isIOS && isMobile || isSafari) {
+        const zip = new JSZip();
 
-      const zip = new JSZip();
+        await Promise.all(bufferArray.map(async (buffer) => {
+          const arrayBuffer = Buffer.from(buffer[0]);
+          zip.file(`${new Date().getTime()}.jpg`, arrayBuffer);
+        }));
 
-      await Promise.all(bufferArray.map(async (buffer) => {
-        const arrayBuffer = Buffer.from(buffer[0]);
-        zip.file(`${new Date().getTime()}.jpg`, arrayBuffer);
-      }));
+        const zipped = await zip.generateAsync({ type: "arraybuffer" });
+        const filesZipped = Buffer.from(zipped)
 
-      const zipped = await zip.generateAsync({ type: "arraybuffer" });
-      const filesZipped = Buffer.from(zipped)
+        const blob = new Blob([filesZipped], { type: 'application/zip' });
+        let a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = `chun's婚禮回憶.zip`;
+        a.click();
 
-      const blob = new Blob([filesZipped], { type: 'application/zip' });
-      let a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = `chun's婚禮回憶.zip`;
-      a.click();
+      } else {
+
+        for (let i = 0; i < bufferArray.length; i++) {
+
+          const buffer = Buffer.from(bufferArray[i][0]);
+          const blob = new Blob([buffer]);
+
+          let url = window.URL.createObjectURL(blob);
+          let a = document.createElement("a");
+          a.href = url;
+          a.download = `${new Date().getTime()}${i}.jpg`;
+          a.click();
+          window.URL.revokeObjectURL(url);
+        }
+      }
 
       setIsLoading(false);
       setSelectedPhotos([]);
+
     })
   }
 
@@ -148,6 +166,7 @@ export default function Home() {
           }}
         >
           {photo.map((img, index) => {
+            const fileNameSelected = getFileOriginName(img.src);
             return (<div
               onContextMenu={(e) => e.preventDefault()}
               key={index}
@@ -162,6 +181,7 @@ export default function Home() {
                 <input
                   className="check"
                   type="checkbox"
+                  checked={selectedPhotos.includes(fileNameSelected)}
                   style={{
                     position: "absolute",
                     left: 0,
@@ -175,8 +195,6 @@ export default function Home() {
                     appearance: "none"
                   }}
                   onClick={async () => {
-                    const fileNameSelected = getFileOriginName(img.src);
-
                     if (selectedPhotos.includes(fileNameSelected)) {
                       setSelectedPhotos((prevSelected) => (prevSelected.filter(selected => fileNameSelected != selected)));
                     } else {
